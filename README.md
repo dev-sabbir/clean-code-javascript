@@ -529,23 +529,13 @@ function createTempFile(name) {
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
+### সাইড ইফেক্ট এড়িয়ে চলতে হবে (পার্ট-১)  
 
-### Avoid Side Effects (part 1)
+যখন একটা ফাংশন ভ্যালু আদানপ্রদান ছাড়া অন্য কাজ করবে তখনই সাইড ইফেক্ট তৈরি হয়। ফাইলে রাইট করা, গ্লোবাল ভ্যারিয়েবল আপডেট করা এগুলো হল সাইড ইফেক্ট এর উদাহরণ। 
 
-A function produces a side effect if it does anything other than take a value in
-and return another value or values. A side effect could be writing to a file,
-modifying some global variable, or accidentally wiring all your money to a
-stranger.
+মাঝে মাঝে আমাদের সাইড ইফেক্ট এর প্রয়োজন হয়, যেমনঃ ফাইলে রাইট করা। সেক্ষেত্রে আমরা এই সাইড ইফেক্টটাকে একটা আলাদা সার্ভিস বানিয়ে রাখতে পারি। তারপর যেখানে যেখানে দরকার ওই সার্ভিস টা ব্যবহার করতে পারি। 
 
-Now, you do need to have side effects in a program on occasion. Like the previous
-example, you might need to write to a file. What you want to do is to
-centralize where you are doing this. Don't have several functions and classes
-that write to a particular file. Have one service that does it. One and only one.
-
-The main point is to avoid common pitfalls like sharing state between objects
-without any structure, using mutable data types that can be written to by anything,
-and not centralizing where your side effects occur. If you can do this, you will
-be happier than the vast majority of other programmers.
+আসল কথা হল, সাধারণ ভুলগুলো এড়িয়ে চলতে হবে। যেমনঃ অবজেক্ট এর মধ্যে state শেয়ার করা, mutable ডাটা টাইপ ব্যবহার করা, সাইড ইফেক্ট গুলোকে ম্যানেজ না করতে পারা ইত্যাদি। যদি তুমি সাইড ইফেক্ট গুলোকে ঠিকঠাক ম্যানেজ করতে পার তাহলে তুমি বেশিরভাগ প্রোগ্রামারদের থেকে শান্তিতে থাকবে। 
 
 **খারাপ কোড:**
 
@@ -579,7 +569,7 @@ console.log(newName); // ['Ryan', 'McDermott'];
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Avoid Side Effects (part 2)
+### সাইড ইফেক্ট এড়িয়ে চলতে হবে (পার্ট-2)  
 
 In JavaScript, primitives are passed by value and objects/arrays are passed by
 reference. In the case of objects and arrays, if your function makes a change
