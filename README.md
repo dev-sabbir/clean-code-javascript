@@ -571,38 +571,15 @@ console.log(newName); // ['Ryan', 'McDermott'];
 
 ### সাইড ইফেক্ট এড়িয়ে চলতে হবে (পার্ট-2)  
 
-In JavaScript, primitives are passed by value and objects/arrays are passed by
-reference. In the case of objects and arrays, if your function makes a change
-in a shopping cart array, for example, by adding an item to purchase,
-then any other function that uses that `cart` array will be affected by this
-addition. That may be great, however it can be bad too. Let's imagine a bad
-situation:
+জাভাস্ক্রিপ্টে primitive ডাটা pass-by-value এবং এরে/অবজেক্ট pass-by-reference পদ্ধতিতে ফাংশনে যায়। এরে এবং অবজেক্ট এর ক্ষেত্রে, যদি তোমার ফাংশন শপিং কার্ট এরেতে ডাটা পরিবর্তন করে তবে অন্য যত ফাংশন cart এরে ব্যবহার করে সবার cart এরে পরিবর্তন হয়ে যাবে। এটা হয়ত ভাল মনে হচ্ছে, একটা খারাপ কেস চিন্তা করা যাক, 
 
-The user clicks the "Purchase", button which calls a `purchase` function that
-spawns a network request and sends the `cart` array to the server. Because
-of a bad network connection, the `purchase` function has to keep retrying the
-request. Now, what if in the meantime the user accidentally clicks "Add to Cart"
-button on an item they don't actually want before the network request begins?
-If that happens and the network request begins, then that purchase function
-will send the accidentally added item because it has a reference to a shopping
-cart array that the `addItemToCart` function modified by adding an unwanted
-item.
+ধর, একজন ব্যবহারকারী তোমার সাইটের "Purchase" বাটন এ ক্লিক করল, যেটা কিনা "purchase" মেথড কে কল করে এবং cart এরে কে নেটওয়ার্ক কলের মাধ্যমে সার্ভার এ প্রেরণ করে। খারাপ ইন্টারনেট কানেকশন এর কারণে, "purchase" ফাংশনকে বারবার নেটওয়ার্কে কল করতে হবে। এখন যদি দুর্ঘটনাবশত তুমি "Add to cart" বাটনে ক্লিক কর তাহলে নতুন আইটেম addItemToCart ফাংশনের মাধ্যমে cart এরেতে যোগ হয়ে যাবে। এবং নতুন আইটেম সহ তোমার রিকুয়েস্ট সার্ভার এ চলে যাবে। 
 
-A great solution would be for the `addItemToCart` to always clone the `cart`,
-edit it, and return the clone. This ensures that no other functions that are
-holding onto a reference of the shopping cart will be affected by any changes.
+এটার খুব ভালো একটা সমাধান হল, addToItemCart সব সময় cart কে ক্লোন করে নতুন এরে বানাবে, তারপর সেই এরেতে পরিবর্তন করে নতুন এরে টা রিটার্ন করবে। এতেকরে আসল cart এরে অপরিবর্তিত থাকবে। 
 
-Two caveats to mention to this approach:
-
-1. There might be cases where you actually want to modify the input object,
-   but when you adopt this programming practice you will find that those cases
-   are pretty rare. Most things can be refactored to have no side effects!
-
-2. Cloning big objects can be very expensive in terms of performance. Luckily,
-   this isn't a big issue in practice because there are
-   [great libraries](https://facebook.github.io/immutable-js/) that allow
-   this kind of programming approach to be fast and not as memory intensive as
-   it would be for you to manually clone objects and arrays.
+এই পদ্ধতিতে ২ টা কিন্তু আছে, 
+1. এমন হতে পারে যে তোমার ইনপুট অব্জেক্টটাই পরিবর্তন করা দরকার, ক্লোন করে কাজ হচ্ছেনা। তবে এটা খুবই কম দেখা যা। বেশিরভাগ জিনিশই সাইড ইফেক্ট ছাড়াই রিফ্যাক্টর করা যায়। 
+2. অনেক বড় একটা অবজেক্ট ক্লোন করা পার্ফরমেন্স এর প্রেক্ষিতে খুবই ব্যয়বহুল। সৌভাগ্যবশত বাস্তবে এমন না, কারণ কিছু [অসাধারণ লাইব্রেরি](https://facebook.github.io/immutable-js/) আছে যাদের কারণে অবজেক্ট ক্লোনিং অনেক দ্রুত এবং কম মেমরি ব্যবহার করে করা যায়। 
 
 **খারাপ কোড:**
 
@@ -622,17 +599,10 @@ const addItemToCart = (cart, item) => {
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Don't write to global functions
+### গ্লোবাল ফাংশলে কিছু লিখবে না 
 
-Polluting globals is a bad practice in JavaScript because you could clash with another
-library and the user of your API would be none-the-wiser until they get an
-exception in production. Let's think about an example: what if you wanted to
-extend JavaScript's native Array method to have a `diff` method that could
-show the difference between two arrays? You could write your new function
-to the `Array.prototype`, but it could clash with another library that tried
-to do the same thing. What if that other library was just using `diff` to find
-the difference between the first and last elements of an array? This is why it
-would be much better to just use ES2015/ES6 classes and simply extend the `Array` global.
+জাভাস্ক্রিপ্টে গ্লোবাল অবজেক্ট এ কিছু পরিবর্তন করা খুবই খারাপ একটি অভ্যাস। কারণ অনেক লাইব্রেরি গ্লোবাল অবজেক্ট ব্যবহার করে। তোমার পরিবর্তন এর কারণে সেইসব লাইব্রেরির কাজের ব্যঘাত ঘটার সম্ভাবনা থাকে। একটা সম্ভাবনা ধরা যাক, 
+কি হবে যদি তুমি জাভাস্ক্রিপ্টের ডিফল্ট এরে মেথড এ "diff" নামক একটি মেথড যোগ কর, যেটা কিনা ২ টা এরের মধ্যে পার্থক্য দেখায়। এই মেথডটা Array.prototype এ রাখলে, অন্য লাইব্রেরি যদি একই "diff" নামক মেথড দিয়ে একটা এরের প্রথম এবং শেষ আইটেম এর পার্থক্য দেখাতে চায় তাহলে কি হবে? এই জন্য ES2015/ES6 এর ক্লাস ব্যবহার করে Array গ্লোবাল কে এক্সটেন্ড করে ব্যবহার করা বেশি ভালো। 
 
 **খারাপ কোড:**
 
@@ -656,11 +626,9 @@ class SuperArray extends Array {
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Favor functional programming over imperative programming
+### ইম্পেরাটিভ প্রোগ্রামিং থেকে ফাংশনাল প্রোগ্রামিং এ বেশি গুরুত্ব দাও 
 
-JavaScript isn't a functional language in the way that Haskell is, but it has
-a functional flavor to it. Functional languages can be cleaner and easier to test.
-Favor this style of programming when you can.
+জাভাস্ক্রিপ্ট হাস্কেল এর মত ফাংশনাল প্রোগ্রামিং ল্যাঙ্গুয়েজ না। কিন্তু এইটায় একধরনের ফাংশনাল ফ্লেভার আছে। ফাংশনাল ল্যাঙ্গুয়েজ টেস্ট করা তুলনামূলকভাবে সহজ। যখনই পারবে এই স্টাইলে প্রোগ্রামিং করবে, 
 
 **খারাপ কোড:**
 
@@ -721,7 +689,7 @@ const totalOutput = programmerOutput.reduce(
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Encapsulate conditionals
+### কন্ডিশনাল কে ব্রাকেট দিয়ে আবদ্ধ কর
 
 **খারাপ কোড:**
 
@@ -745,7 +713,7 @@ if (shouldShowSpinner(fsmInstance, listNodeInstance)) {
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Avoid negative conditionals
+### নেগেটিভ কন্ডিশনাল এড়িয়ে চল
 
 **খারাপ কোড:**
 
@@ -773,16 +741,9 @@ if (isDOMNodePresent(node)) {
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Avoid conditionals
+### কন্ডিশনাল এড়িয়ে চল
 
-This seems like an impossible task. Upon first hearing this, most people say,
-"how am I supposed to do anything without an `if` statement?" The answer is that
-you can use polymorphism to achieve the same task in many cases. The second
-question is usually, "well that's great but why would I want to do that?" The
-answer is a previous clean code concept we learned: a function should only do
-one thing. When you have classes and functions that have `if` statements, you
-are telling your user that your function does more than one thing. Remember,
-just do one thing.
+শুরুতে এটা অসম্ভব মনে হতে পারে। বেশিরভাগ মানুষ এটা শুনেই বলবে, "If স্টেটমেন্ট ছাড়া আমি কিভাবে কিছু করবো?" এটার উত্তর হল, আমরা "Polymorphism" ব্যবহার করে এটা করতে পারি। তখন তারা জিজ্ঞেস করবে, "এটা আমি কেন করব?" এটার উত্তর হল, আমরা এতক্ষণ যে ক্লিন কোড এর নিয়মনীতি পরে আসলাম তার মধ্যে একটা, "একটা ফাংশন শুধু একটা কাজ করবে"। যখনই তোমার ফাংশনে if থাকবে তার মানেই হল তোমার ফাংশন একাধিক কাজ করছে। 
 
 **খারাপ কোড:**
 
@@ -833,12 +794,9 @@ class Cessna extends Airplane {
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Avoid type-checking (part 1)
+### টাইপ চেকিং এড়িয়ে চলতে হবে (পার্ট-১) 
 
-JavaScript is untyped, which means your functions can take any type of argument.
-Sometimes you are bitten by this freedom and it becomes tempting to do
-type-checking in your functions. There are many ways to avoid having to do this.
-The first thing to consider is consistent APIs.
+জাভাস্ক্রিপ্টে ফাংশন যেকোন টাইপের ডাটা আর্গুমেন্ট হিসেবে নিতে পারে। মাঝে মধ্যে এই স্বাধীনতাই আমাদের কাল হয়ে দাড়ায়। ফাংশনের ভিতরে টাইপ চেক করা একটা লোভনীয় কাজ। এটা এড়ানর অনেক উপায় আছে। প্রথম কথা হল একটা স্থিতিশীল API ব্যবহার করা। 
 
 **খারাপ কোড:**
 
@@ -862,17 +820,9 @@ function travelToTexas(vehicle) {
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Avoid type-checking (part 2)
+### টাইপ চেকিং এড়িয়ে চলতে হবে (পার্ট-2)
 
-If you are working with basic primitive values like strings and integers,
-and you can't use polymorphism but you still feel the need to type-check,
-you should consider using TypeScript. It is an excellent alternative to normal
-JavaScript, as it provides you with static typing on top of standard JavaScript
-syntax. The problem with manually type-checking normal JavaScript is that
-doing it well requires so much extra verbiage that the faux "type-safety" you get
-doesn't make up for the lost readability. Keep your JavaScript clean, write
-good tests, and have good code reviews. Otherwise, do all of that but with
-TypeScript (which, like I said, is a great alternative!).
+তুমি বেসিক প্রিমিটিভ যেমন স্ট্রিং, ইন্টিজারের ক্ষেত্রে polymorphism ব্যবহার করতে পারবে না। কিন্তু তবুও তোমার হয়ত টাইপচেকিং এর দরকার পরতে পারে। তুমি Typescript ব্যবহার করে দেখতে পার। এটা সাধারণ জাভাস্ক্রিপ্টের খুব ভালো একটা বিকল্প। এটা স্ট্যাটিক টাইপিং সাপোর্ট করে।  সাধারণ জাভাস্ক্রিপ্টের প্রব্লেম হল এটায় টাইপচেকিং এর জন্য অনেক কিছু করা লাগে যেটা Typescript এ লাগবে না।  আবারও বলছি Typescript সাধারণ জাভাস্ক্রিপ্টের খুব ভালো একটা বিকল্প। 
 
 **খারাপ কোড:**
 
@@ -899,13 +849,9 @@ function combine(val1, val2) {
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Don't over-optimize
+### অতিরিক্ত অপ্টিমাইজ করার দরকার নেই 
 
-Modern browsers do a lot of optimization under-the-hood at runtime. A lot of
-times, if you are optimizing then you are just wasting your time. [There are good
-resources](https://github.com/petkaantonov/bluebird/wiki/Optimization-killers)
-for seeing where optimization is lacking. Target those in the meantime, until
-they are fixed if they can be.
+আধুনিক ব্রাউজার পর্দার পেছনে অনেক ধরণের অপটিমাইজেশন করে। অনেক ক্ষেত্রেই তোমার অপটিমাইজেশন সময়ের অপচয়। কারণ ব্রাউজার এটা নিজেই আবারও করবে। কোথায় অপটিমাইজেশন দরকার সেটা চেক করার জন্য [খুব ভালো রিসোর্স](https://github.com/petkaantonov/bluebird/wiki/Optimization-killers) আছে। আপাতত সগুলো অপ্টিমাইজ করার চেষ্টা কর। 
 
 **খারাপ কোড:**
 
@@ -927,11 +873,9 @@ for (let i = 0; i < list.length; i++) {
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Remove dead code
+### অব্যবহৃত কোড ফেলে দাও 
 
-Dead code is just as bad as duplicate code. There's no reason to keep it in
-your codebase. If it's not being called, get rid of it! It will still be safe
-in your version history if you still need it.
+অব্যবহৃত কোড ডুপ্লিকেট কোড এর মতই খারাপ। তোমার কোডবেজে এগুলোকে রাখার কোন কারণ নেই। তুমি নিশ্চিন্তে অব্যবহৃত কোড ফেলে দিতে পারো। কারণ এগুলো ভার্শন হিস্টরি তে থাকবে। 
 
 **খারাপ কোড:**
 
