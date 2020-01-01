@@ -1646,22 +1646,11 @@ inventoryTracker.requestItems();
 
 ## **টেস্টিং**
 
-Testing is more important than shipping. If you have no tests or an
-inadequate amount, then every time you ship code you won't be sure that you
-didn't break anything. Deciding on what constitutes an adequate amount is up
-to your team, but having 100% coverage (all statements and branches) is how
-you achieve very high confidence and developer peace of mind. This means that
-in addition to having a great testing framework, you also need to use a
-[good coverage tool](https://gotwarlost.github.io/istanbul/).
+প্রোডাক্ট শিপিং এর থেকে টেস্টিং গুরুত্বপুর্ন । যদি তুমি ভালভাবে টেস্ট না কর বা কম টেস্ট কর, তাহলে প্রতিবার শিপিং এর সময় তুমি নিশ্চিত থাকতে পারবে না। পর্যাপ্ত টেস্ট বলতে কি বুঝায় সেটা তোমার টিম এর উপর ডিপেন্ড করে। তবে ১০০% টেস্ট কভারেজ থাকলে তুমি অনেক বেশি আত্মবিশ্বাসী এবং ডেভেলপের হিসেবে শান্তি তে থাকতে পারবে। তার মানে হল ভালো টেস্টিং ফ্রেমওয়ার্ক এর পাশাপাশি [ভালো কভারেজ টুল](https://gotwarlost.github.io/istanbul/) ও প্রয়োজন। 
 
-There's no excuse to not write tests. There are [plenty of good JS test frameworks](https://jstherightway.org/#testing-tools), so find one that your team prefers.
-When you find one that works for your team, then aim to always write tests
-for every new feature/module you introduce. If your preferred method is
-Test Driven Development (TDD), that is great, but the main point is to just
-make sure you are reaching your coverage goals before launching any feature,
-or refactoring an existing one.
+টেস্ট না লেখার কোন অজুহাত নেই। [অনেক ভালো টেস্ট ফ্রেমওয়ার্ক](https://jstherightway.org/#testing-tools) আছে। সুতরাং, তোমার টিম যেটা পছন্দ করে সেটা বেছে নাও। তারপর প্রতিটা নতুন ফিচার, মডিউল লেখার সময় টেস্ট লেখা নিশ্চিত কর। তুমি যদি Test Driven Development পছন্দ কর তাহলে খুব ভালো। তবে আসল কথা হল, প্রতিটি নতুন ফিচার শিপিং এর আগে টেস্ট কভারেজ নিশ্চিত করা। 
 
-### Single concept per test
+### প্রতি টেস্ট এ একটা মাত্র কনসেপ্ট
 
 **খারাপ কোড:**
 
@@ -1717,10 +1706,9 @@ describe("MomentJS", () => {
 
 ## **কনকারেন্সি**
 
-### Use Promises, not callbacks
+### কলব্যাক ব্যবহার না করে, প্রমিস ব্যবহার কর 
 
-Callbacks aren't clean, and they cause excessive amounts of nesting. With ES2015/ES6,
-Promises are a built-in global type. Use them!
+কলব্যাক মেথড অনেক বেশি নেস্টিং তৈরি করে। ES2015/ES6 এর সাথে প্রমিস গ্লোবাল টাইপ হিসেবে দেয়া আছে, সেটা ব্যবহার কর। 
 
 **খারাপ কোড:**
 
@@ -1766,13 +1754,9 @@ get("https://en.wikipedia.org/wiki/Robert_Cecil_Martin")
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Async/Await are even cleaner than Promises
+### Async/Await প্রমিস থেকেও ভাল 
 
-Promises are a very clean alternative to callbacks, but ES2017/ES8 brings async and await
-which offer an even cleaner solution. All you need is a function that is prefixed
-in an `async` keyword, and then you can write your logic imperatively without
-a `then` chain of functions. Use this if you can take advantage of ES2017/ES8 features
-today!
+কলব্যাকের তুলনায় প্রমিস অনেক ভাল। কিন্তু ES2017/ES8 এর সাথে asnyc এবং await আছে, যেটা আরও ভালো সমাধান দিতে পারে। তোমার শুধু ফাংশনের আগে async ব্যবহার করতে হবে। যদি ES2017/ES8 এর সুবিধা নিতে পার তাহলে আজ থেকেই async  এবং await ব্যবহার কর। 
 
 **খারাপ কোড:**
 
@@ -1817,19 +1801,11 @@ getCleanCodeArticle()
 
 ## **এরর হ্যান্ডলিং**
 
-Thrown errors are a good thing! They mean the runtime has successfully
-identified when something in your program has gone wrong and it's letting
-you know by stopping function execution on the current stack, killing the
-process (in Node), and notifying you in the console with a stack trace.
+এরর থ্রু করা একটি ভাল জিনিশ। তার মানে হল তোমার রানটাইম বুঝতে পেরেছে যে কিছু একটা সমস্যা আছে। 
 
-### Don't ignore caught errors
+### এরর কে অবজ্ঞা কর না। 
 
-Doing nothing with a caught error doesn't give you the ability to ever fix
-or react to said error. Logging the error to the console (`console.log`)
-isn't much better as often times it can get lost in a sea of things printed
-to the console. If you wrap any bit of code in a `try/catch` it means you
-think an error may occur there and therefore you should have a plan,
-or create a code path, for when it occurs.
+এরর পেলে সেটা নিয়ে কিছু না করলে তুমি এরর এর কারণ বের করতে পারবে না এবং তার সমাধান ও দিতে পারবে না। কনসোলে এরর লগ করা তেমন ভাল কোন সমাধান না। এটা কনসোলে প্রিন্ট হওয়া হাজারও জিনিসের ভিড়ে হারিয়ে যেতে পারে। যদি তুমি তোমার কোড কে try/catch ব্লক এ আবদ্ধ কর তার মানে হল তুমি অনুমান করতে পারছ এখানে একটা এরর হতে পারে। সুতরাং সেক্ষেত্রে তোমার একটা পরিকল্পনা থাকা উচিত। 
 
 **খারাপ কোড:**
 
@@ -1857,10 +1833,9 @@ try {
 }
 ```
 
-### Don't ignore rejected promises
+### রিজেক্টেড প্রমিস কে অবজ্ঞা করবে না। 
 
-For the same reason you shouldn't ignore caught errors
-from `try/catch`.
+যেকারনে try/catch এ ধরা এরর কে অবজ্ঞা করবে না। একই কারণে রিজেক্টেড প্রমিসকেও অবজ্ঞা করবে না। 
 
 **খারাপ কোড:**
 
@@ -1896,20 +1871,13 @@ getdata()
 
 ## **ফরম্যাটিং**
 
-Formatting is subjective. Like many rules herein, there is no hard and fast
-rule that you must follow. The main point is DO NOT ARGUE over formatting.
-There are [tons of tools](https://standardjs.com/rules.html) to automate this.
-Use one! It's a waste of time and money for engineers to argue over formatting.
+ফরম্যাটিং একটা সাব্জেটিভ ব্যপার। এখানে অন্যে রুলের মতই ফরম্যাটিং এর ও কোন ধরাবাঁধা নিয়ম নেই।  আসল কথা হল, কখনো ফরম্যাটিং নিয়ে তর্ক করবে না। [অনেক টুলস](https://standardjs.com/rules.html)আছে এই কাজ টা অটোম্যাট করার জন্য। যেকোনো একটা ব্যবহার কর। ফরম্যাটিং নিয়ে তর্ক করা সময়ের অপচয় করা ছাড়া আর  কিছু না। 
 
-For things that don't fall under the purview of automatic formatting
-(indentation, tabs vs. spaces, double vs. single quotes, etc.) look here
-for some guidance.
+যেগুলো অটো ফরম্যাটিং এর আওতায় পরে না সেগুলোর জন্য নিচে কিছু নিয়ম দেয়া আছে। 
 
-### Use consistent capitalization
+### স্থিতিশীল ক্যাপিটালাইযেশন ব্যবহার কর। 
 
-JavaScript is untyped, so capitalization tells you a lot about your variables,
-functions, etc. These rules are subjective, so your team can choose whatever
-they want. The point is, no matter what you all choose, just be consistent.
+যেহেতু জাভাস্ক্রিপ্ট আন্টাইপড ল্যাঙ্গুয়েজ, তাই যথাযথ ক্যাপিটালাইজেশন ভ্যারিয়েবল সম্পর্কে তথ্য দিতে পারে। এই নিয়মগুলোও সাব্জেক্টিভ, তাই তোমাদের টিম এর সুবিধা মত একটা বেছে নিলেই হবে। তবে যেটাই বেছে নাও না কেন সেটাতেই স্থির থেকো। 
 
 **খারাপ কোড:**
 
@@ -1947,9 +1915,7 @@ class Alpaca {}
 
 ### Function callers and callees should be close
 
-If a function calls another, keep those functions vertically close in the source
-file. Ideally, keep the caller right above the callee. We tend to read code from
-top-to-bottom, like a newspaper. Because of this, make your code read that way.
+যদি একটা ফাংশন অন্য একটাকে কল করে, তবে চেষ্টা করবে এদেরকে পাশাপাশি রাখতে। 
 
 **খারাপ কোড:**
 
@@ -2035,9 +2001,9 @@ review.perfReview();
 
 ## **কমেন্টস**
 
-### Only comment things that have business logic complexity.
+### শুধুমাত্র কমপ্লেক্স বিজনেস লজিক সমৃদ্ধ কোডের ক্ষেত্রে কমেন্ট করবে। 
 
-Comments are an apology, not a requirement. Good code _mostly_ documents itself.
+কমেন্ট হচ্ছে একধরনের ক্ষমা প্রার্থনা। কারণ ভাল _বেশিরভাগ_ ক্ষেত্রেই নিজেই নিজের ডকুমেন্ট হিসবে কাজ করে, কমেন্ট করার দরকার পরে না। 
 
 **খারাপ কোড:**
 
@@ -2080,9 +2046,9 @@ function hashIt(data) {
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Don't leave commented out code in your codebase
+### কখনই কমেন্টেড কোড রাখবেনা
 
-Version control exists for a reason. Leave old code in your history.
+ভার্শন কন্ট্রোল তৈরি হওয়ার একটা কারণ আছে। পুরাতন কোড তোমার হিস্টোরিতেই থাকবে, কমেন্ট করে রাখার দরকার নেই। 
 
 **খারাপ কোড:**
 
@@ -2101,10 +2067,9 @@ doStuff();
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Don't have journal comments
+### জার্নাল কমেন্ট লিখবে না। 
 
-Remember, use version control! There's no need for dead code, commented code,
-and especially journal comments. Use `git log` to get history!
+মনে রাখবে, ভার্শন কন্ট্রোল ব্যবহার করতে হবে। `git log` ব্যবহার কর হিস্টোরি দেখতে। 
 
 **খারাপ কোড:**
 
@@ -2130,10 +2095,9 @@ function combine(a, b) {
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Avoid positional markers
+### পজিশনাল মার্কার রাখার দরকার নেই। 
 
-They usually just add noise. Let the functions and variable names along with the
-proper indentation and formatting give the visual structure to your code.
+এগুলো আসলে শুধু সমস্যা তৈরি করে। 
 
 **খারাপ কোড:**
 
