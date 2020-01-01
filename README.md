@@ -8,7 +8,7 @@
 3. [ফাংশনস](#ফাংশনস)
 4. [অবজেক্ট এবং ডাটা স্ট্রাকচার](#অবজেক্ট-এবং-ডাটা-স্ট্রাকচার)
 5. [ক্লাস](#ক্লাস)
-6. [সলিড(SOLID)](#সলিড(SOLID))
+6. [সলিড(SOLID)](#SOLID)
 7. [টেস্টিং](#টেস্টিং)
 8. [কনকারেন্সি](#কনকারেন্সি)
 9. [এরর হ্যান্ডলিং](#এরর-হ্যান্ডলিং)
@@ -907,19 +907,15 @@ inventoryTracker("apples", req, "www.inventory-awesome.io");
 
 ## **অবজেক্ট এবং ডাটা স্ট্রাকচার**
 
-### Use getters and setters
+### গেটার সেটার ব্যবহার কর 
 
-Using getters and setters to access data on objects could be better than simply
-looking for a property on an object. "Why?" you might ask. Well, here's an
-unorganized list of reasons why:
+অবজেক্ট প্রপার্টি খোজার চেয়ে গেটার সেটার মেথড ব্যবহার করে অবজেক্ট এর ডাটা এক্সেস করা ভালো। তুমি জিজ্ঞেস করতে পারো, কেন? নিচে একটা লিস্ট দিয়ে দিলাম, 
 
-- When you want to do more beyond getting an object property, you don't have
-  to look up and change every accessor in your codebase.
-- Makes adding validation simple when doing a `set`.
-- Encapsulates the internal representation.
-- Easy to add logging and error handling when getting and setting.
-- You can lazy load your object's properties, let's say getting it from a
-  server.
+- যখন তুমি অবজেক্ট প্রপার্টি খোজার চেয়ে আরও বেশি কিছু করতে চাও, তখন তোমার সব এক্সেসর পরিবর্তন করা লাগবে না। 
+- setter মেথড ব্যবহার করলে ভ্যালিডেশন সহজ হয়। 
+- অন্তর্নিহিত অপ্রয়োজনীয় ডাটা আবদ্ধ থাকে 
+- getting এবং setting এর সময়  লগ করা, এরর হ্যান্ডলিং করা সহজ হয়। 
+- তুমি সার্ভার থেকে ডাটা লোড করার সময় 'lazy-load' করতে পার। 
 
 **খারাপ কোড:**
 
@@ -968,9 +964,9 @@ account.setBalance(100);
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Make objects have private members
+### অবজেক্ট এর ভিতরে প্রাইভেট মেম্বার ব্যবহার কর 
 
-This can be accomplished through closures (for ES5 and below).
+এটা তুমি 'closures' ব্যবহার করে করতে পার(ES5 এবং তার নিচে)
 
 **খারাপ কোড:**
 
@@ -1010,12 +1006,9 @@ console.log(`Employee name: ${employee.getName()}`); // Employee name: John Doe
 
 ## **ক্লাস**
 
-### Prefer ES2015/ES6 classes over ES5 plain functions
+### ES2015/ES6 এর ক্লাসকে ES5 এর ফাংশন থেকে বেশি গুরুত্ব দাও 
 
-It's very difficult to get readable class inheritance, construction, and method
-definitions for classical ES5 classes. If you need inheritance (and be aware
-that you might not), then prefer ES2015/ES6 classes. However, prefer small functions over
-classes until you find yourself needing larger and more complex objects.
+ES5 এর ক্লাস ব্যবহার করে সুপাঠ্য ক্লাস ইনহেরিটেন্স, কন্সট্রাকশন, মেথড লেখা খুবই কঠিন। তোমার যদি ইনহেরিটেন্স দরকার হয়, সেক্ষেত্রে ES2015/ES6 ক্লাসকে প্রাধান্য দাও। তবে যতক্ষণ না তোমার বড় এবং জটিল অবজেক্ট প্রয়োজন না হচ্ছে ততক্ষণ পর্যন্ত ছোট ফাংশন ব্যবহার কর। 
 
 **খারাপ কোড:**
 
@@ -1095,13 +1088,9 @@ class Human extends Mammal {
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Use method chaining
+### মেথড চেইনিং ব্যবহার কর 
 
-This pattern is very useful in JavaScript and you see it in many libraries such
-as jQuery and Lodash. It allows your code to be expressive, and less verbose.
-For that reason, I say, use method chaining and take a look at how clean your code
-will be. In your class functions, simply return `this` at the end of every function,
-and you can chain further class methods onto it.
+জাভাস্ক্রিপ্টের এই প্যাটার্নটি খুব উপকারী এবং তুমি অনেক লাইব্রেরি যেমন jQuery, Lodash এ এরকম প্যাটার্ন দেখতে পাবে। এটা তোমার কোড কে অনেক বেশি সহজবোধ্য করে তুলবে। এই জন্য বলি, মেথড চেইনিং ব্যবহার কর এবং দেখ তোমার কোড আগের থেকে অনেক পরিষ্কার হবে। তোমার ক্লাস মেথডের শেষে this রিটার্ন করলেই হবে। তারপর তুমি সেই ফাংশনেও মেথড চেইনিং করতে পারবে। 
 
 **খারাপ কোড:**
 
@@ -1175,24 +1164,15 @@ const car = new Car("Ford", "F-150", "red").setColor("pink").save();
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-### Prefer composition over inheritance
+### ইনহেরিটেন্স থেকে কম্পোজিশনে গুরুত্ব দাও 
 
-As stated famously in [_Design Patterns_](https://en.wikipedia.org/wiki/Design_Patterns) by the Gang of Four,
-you should prefer composition over inheritance where you can. There are lots of
-good reasons to use inheritance and lots of good reasons to use composition.
-The main point for this maxim is that if your mind instinctively goes for
-inheritance, try to think if composition could model your problem better. In some
-cases it can.
+The gang of Four এর লেখা [_ডিজাইন প্যাটার্ন্স_](https://en.wikipedia.org/wiki/Design_Patterns) বইয়ে খুব জনপ্রিয় একটি কথা হল, "যখনই পারবে তখনই ইনহেরিটেন্স থেকে কম্পোজিশন কে বেশি গুরুত্ব দিবে"। ইনহেরিটেন্স ব্যবহারের এবং কম্পোজিশন ব্যবহারের অনেক ভালো কারণ রয়েছে। মোদ্দা কথা হল, তুমি যদি স্বতঃস্ফূর্ত ভাবেই চিন্তা কর যে ইনহেরিটেন্স তোমার সমস্যার সমাধা করবে তবে আরেকবার ভাব যে কম্পোজিশন দিয়ে কাজ টা করা যায় কিনা। অনেক ক্ষেত্রেই তুমি পারবে, 
 
-You might be wondering then, "when should I use inheritance?" It
-depends on your problem at hand, but this is a decent list of when inheritance
-makes more sense than composition:
+তুমি হয়ত ভাবতে পার, "তাহলে ইনহেরিটেন্স কখন ব্যবহার করব"? এটা নির্ভর করে তোমার প্রব্লেম এর উপর। যেসব ক্ষেত্রে ইনহেরিটেন্স কম্পজিশন্ থেকে ভালো নিচে তার একটা লিস্ট দিলাম, 
 
-1. Your inheritance represents an "is-a" relationship and not a "has-a"
-   relationship (Human->Animal vs. User->UserDetails).
-2. You can reuse code from the base classes (Humans can move like all animals).
-3. You want to make global changes to derived classes by changing a base class.
-   (Change the caloric expenditure of all animals when they move).
+1. তোমার ইনহেরিটেন্স এ "has-a" এর বদলে "is-a" সম্পর্ক বিদ্যমান।  (মানুষ>প্রানি vs. ব্যবহারকারী>ব্যবহারকারির তথ্য ) 
+2. তুমি বেজ ক্লাস থেকে কোড পুনরায় ব্যবহার করতে পারলে(human can move like all animals)। 
+3. তুমি চাইল্ড ক্লাসে গ্লোবাল পরিবর্তন আনতে চাও বেজ ক্লাসে পরিবর্তনের মাধ্যমে। (Change the caloric expenditure of all animals when they move).
 
 **খারাপ কোড:**
 
@@ -1245,18 +1225,11 @@ class Employee {
 
 **[⬆ উপরে ফিরে যেতে এখানে ক্লিক করতে হবে](#সূচিপত্র)**
 
-## **সলিড(SOLID)**
+## **SOLID**
 
 ### Single Responsibility Principle (SRP)
 
-As stated in Clean Code, "There should never be more than one reason for a class
-to change". It's tempting to jam-pack a class with a lot of functionality, like
-when you can only take one suitcase on your flight. The issue with this is
-that your class won't be conceptually cohesive and it will give it many reasons
-to change. Minimizing the amount of times you need to change a class is important.
-It's important because if too much functionality is in one class and you modify
-a piece of it, it can be difficult to understand how that will affect other
-dependent modules in your codebase.
+ক্লিন কোড বইয়ে যেমনটা বলা হয়েছে, "একটা ক্লাস এ পরিবর্তনের জন্য একটার বেশি কারন থাকা উচিত না"। ফ্লাইটে একটা মাত্র সুটকেস নেয়ার মত, একটা ক্লাসে অনেক ফাংশন ঢুকিয়ে দেয়াটা খুব লোভনীয়।  একটা ক্লাস পরিবর্তন করার হার কমাতে পারাটা গুরুত্বপুর্ন । তুমি যদি ক্লাসে অনেক ফাংশন রাখ, তবে একটা পরিবর্তন কোথায় কিভাবে প্রভাব ফেলছে বুঝতে পারা কঠিন হয়ে যায়। 
 
 **খারাপ কোড:**
 
@@ -1309,10 +1282,7 @@ class UserSettings {
 
 ### Open/Closed Principle (OCP)
 
-As stated by Bertrand Meyer, "software entities (classes, modules, functions,
-etc.) should be open for extension, but closed for modification." What does that
-mean though? This principle basically states that you should allow users to
-add new functionalities without changing existing code.
+বারট্রান্ড মেয়ার এর মতে, "সফটওয়ারের ইউনিট(ক্লাস, মডিউলস, ফাংশন্স ইত্যাদি) গুলো এক্সটেন্ড করার জন্য খোলা থাকতে হবে , কিন্তু মডিফিকেশনের জন্য বন্ধ থাকতে হবে" । এটা আসলে কি বুঝায়? এটা দিয়ে আসলে বুঝায়, তোমার ব্যবহারকারীকে নতুন ফাংশন যোগ করতে দিতে হবে, কিন্তু যে ফাংশন আগে থেকে আছে সেগুলো পরিবর্তন করা আটকাতে হবে। 
 
 **খারাপ কোড:**
 
@@ -1519,19 +1489,8 @@ renderLargeShapes(shapes);
 
 ### Interface Segregation Principle (ISP)
 
-JavaScript doesn't have interfaces so this principle doesn't apply as strictly
-as others. However, it's important and relevant even with JavaScript's lack of
-type system.
-
-ISP states that "Clients should not be forced to depend upon interfaces that
-they do not use." Interfaces are implicit contracts in JavaScript because of
-duck typing.
-
-A good example to look at that demonstrates this principle in JavaScript is for
-classes that require large settings objects. Not requiring clients to setup
-huge amounts of options is beneficial, because most of the time they won't need
-all of the settings. Making them optional helps prevent having a
-"fat interface".
+জাভাস্ক্রিপ্টে যদিও ইন্টারফেস না থাকার কারণে এই নীতি খাটে না। তবে, এটা গুরুত্বপুর্ন এবং আনুসাংগিক।  ISP অনুযায়ী, " ক্লায়েন্ট যে ইন্টারফেস ব্যবহার করে না সেই ইন্টারফেস চাপিয়ে দেয়া যাবে না। " 
+এই নীতিটি বুঝার জন্য একটা ভালো উদাহরণ হল, ক্লাসের সেটিং অবজেক্ট কে আবশ্যিক না করা। এতে করে যে সকল ক্লাসের সেটিং অবজেক্ট অনেক বড় এবং ক্লায়েন্টের সব সেটিং প্রয়োজন নেই, সেখেত্রে আমরা একটা বিশাল ইন্টারফেস বানানো থেকে বেচে যাই। 
 
 **খারাপ কোড:**
 
@@ -1597,26 +1556,13 @@ const $ = new DOMTraverser({
 
 ### Dependency Inversion Principle (DIP)
 
-This principle states two essential things:
+এই মূলনীতি ২টা গুরত্তপুর্ন জিনিস বলে থাকে, 
+1. হাই লেভেল মডিউল কখনোই লো লেভেল মডিউল এর উপরে নির্ভর করবে না। 
+2. অ্যাবস্ট্রাকশন ডিটেইলের উপর নির্ভর করবেন না। ডিটেইল অ্যাবস্ট্রাকশনের উপরে নির্ভর করবে। 
 
-1. High-level modules should not depend on low-level modules. Both should
-   depend on abstractions.
-2. Abstractions should not depend upon details. Details should depend on
-   abstractions.
+হয়ত সহজে বুঝবে না, কিন্তু তুমি যদি AngularJS ব্যবহার করে থাক, তাহলে এই মূলনীতির ব্যবহার দেখার কথা। AngularJS ডিপেন্ডেন্সি ইনজেকশনের মধ্যে এই মূলনীতির প্রয়োগ করে। যদিও ২ টা একই ধারণা না। DIP হাই লেভেল মডিউল কে লো লেভেল মডিউল সম্পর্কে জানতে বাধা দেয়। এটার অনেক বড় উপকার হল, এটা মডিউলগুলোর মধ্যে কোন বন্ধন রাখেনা। কাপলিং কোড রেফ্যাক্টরের জন্য খুব খারাপ একটা জিনিস। 
 
-This can be hard to understand at first, but if you've worked with AngularJS,
-you've seen an implementation of this principle in the form of Dependency
-Injection (DI). While they are not identical concepts, DIP keeps high-level
-modules from knowing the details of its low-level modules and setting them up.
-It can accomplish this through DI. A huge benefit of this is that it reduces
-the coupling between modules. Coupling is a very bad development pattern because
-it makes your code hard to refactor.
-
-As stated previously, JavaScript doesn't have interfaces so the abstractions
-that are depended upon are implicit contracts. That is to say, the methods
-and properties that an object/class exposes to another object/class. In the
-example below, the implicit contract is that any Request module for an
-`InventoryTracker` will have a `requestItems` method.
+আগেও বলা হয়েছে, জাভাস্ক্রিপ্টে কোন ইন্টারফেস নাই, সুতরাং, এখানে অ্যাবস্ট্রাকশন অন্তর্নিহিত কন্ট্রাক্ট এর উপর নির্ভর করে। মানে একটা ক্লাস/অবজেক্ট অন্য ক্লাস বা অবজেক্ট এর জন্য নিজের যে মেথড বা মেম্বার গুলো উন্মুক্ত করে দেয় তাদেরকে আমরা কন্ট্রাক্ট বলছি। নিচের উদাহরণে, inventoryTracker এর যেকোনো মডিউল এ requestitems মেথড থাকাটাই implicit কন্ট্রাক্ট । 
 
 **খারাপ কোড:**
 
